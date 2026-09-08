@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from './supabaseClient'; // <-- Import koneksi Supabase
 import Cover from './components/Cover';
 import Couple from './components/Couple';
 import Event from './components/Event';
@@ -14,7 +13,7 @@ export default function App() {
   const queryParams = new URLSearchParams(window.location.search);
   const guestName = queryParams.get('to') || 'Tamu Undangan';
 
-  // --- LOGIKA COUNTDOWN TIMER ---
+  // --- LOGIKA COUNTDOWN TIMER (27 September 2026, 08:00 WIB) ---
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
@@ -39,43 +38,17 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
   
-  // --- AMBIL DATA WISHES DARI SUPABASE ---
-  const [wishesList, setWishesList] = useState([]);
-
-  const fetchWishes = async () => {
-    const { data, error } = await supabase
-      .from('wishes')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Gagal memuat ucapan:', error);
-    } else {
-      setWishesList(data || []);
-    }
-  };
-
-  useEffect(() => {
-    fetchWishes();
-  }, []);
-
-  // --- KIRIM WISHES BARU KE SUPABASE ---
-  const handleAddWish = async (newWish) => {
-    const { error } = await supabase
-      .from('wishes')
-      .insert([newWish]);
-
-    if (error) {
-      console.error('Gagal mengirim ucapan:', error);
-      alert('Terjadi kesalahan saat mengirim ucapan.');
-    } else {
-      // Ambil ulang data terbaru setelah berhasil dikirim
-      fetchWishes();
-    }
-  };
-  
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  
+  const [wishesList, setWishesList] = useState([
+    { name: "Budi Santoso", attendance: "Siap hadir & ikut merayakan! 🎉", message: "Selamat menempuh hidup baru untuk Windy & Naufal! Semoga sakinah mawaddah warahmah." },
+    { name: "Siti Rahma", attendance: "Siap hadir & ikut merayakan! 🎉", message: "Barakallahu lakuma wa baraka 'alaikuma. Happy wedding!" }
+  ]);
+
+  const handleAddWish = (newWish) => {
+    setWishesList([newWish, ...wishesList]);
+  };
 
   const toggleAudio = () => {
     if (isPlaying) {
@@ -250,21 +223,17 @@ export default function App() {
               <p className="font-serif italic text-xs text-gray-500 text-center mb-6">"Love is the natural trajectory woven into every being. It is a quiet, cosmic longing that draws all existence toward kamāl, its truest perfection and highest good." - Ibn Sina</p>
 
               <div className="max-w-sm mx-auto space-y-3 max-h-80 overflow-y-auto pr-1">
-                {wishesList.length === 0 ? (
-                  <p className="text-center text-xs text-gray-400 italic">Belum ada ucapan. Jadilah yang pertama memberikan doa!</p>
-                ) : (
-                  wishesList.map((wish, index) => (
-                    <div key={index} className="bg-[#F8FAFC] p-4 rounded-xl border border-gray-200/80 text-left shadow-xs">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-serif font-bold text-xs text-invitato">{wish.name}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium">
-                          {wish.attendance}
-                        </span>
-                      </div>
-                      <p className="font-sans text-[11px] text-gray-600 leading-relaxed italic">"{wish.message}"</p>
+                {wishesList.map((wish, index) => (
+                  <div key={index} className="bg-[#F8FAFC] p-4 rounded-xl border border-gray-200/80 text-left shadow-xs">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-serif font-bold text-xs text-invitato">{wish.name}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium">
+                        {wish.attendance}
+                      </span>
                     </div>
-                  ))
-                )}
+                    <p className="font-sans text-[11px] text-gray-600 leading-relaxed italic">"{wish.message}"</p>
+                  </div>
+                ))}
               </div>
             </motion.section>
 
