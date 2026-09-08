@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Ini kode dasar bawaan Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
