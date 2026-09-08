@@ -10,7 +10,7 @@ export default function Event() {
       className="py-16 px-6 text-center bg-[#E8F0F6]" /* <-- Warna BG ditebalkan di sini */
     >
       <p className="font-script text-4xl text-invitato mb-2">Save The Date</p>
-      <p className="font-serif text-xl text-invitato mb-3">27 September 2026</p>
+      <p className="font-serif text-xl text-invitato mb-3">Minggu, 27 September 2026</p>
       <div className="w-12 h-px bg-invitato/30 mx-auto mb-10"></div>
       
 
