@@ -1,21 +1,39 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { supabase } from '../supabaseClient';
 
 export default function RSVP({ onAddWish }) {
   const [name, setName] = useState('');
   const [attendance, setAttendance] = useState('Siap hadir & ikut merayakan! 🎉');
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim() || !message.trim()) {
       alert('Mohon isi nama dan ucapan terlebih dahulu.');
       return;
     }
-    onAddWish({ name, attendance, message });
-    setName('');
-    setMessage('');
-    alert('Terima kasih! RSVP & ucapan Anda berhasil dikirim.');
+
+    setIsSubmitting(true);
+
+    // Kirim langsung ke tabel wishes di Supabase
+    const { error } = await supabase
+      .from('wishes')
+      .insert([{ name, attendance, message }]);
+
+    setIsSubmitting(false);
+
+    if (error) {
+      console.error('Gagal mengirim ucapan:', error);
+      alert('Terjadi kesalahan saat mengirim ucapan. Silakan coba lagi.');
+    } else {
+      // Panggil fungsi pembantu dari App.jsx untuk memperbarui daftar di layar
+      onAddWish({ name, attendance, message });
+      setName('');
+      setMessage('');
+      alert('Terima kasih! RSVP & ucapan Anda berhasil dikirim.');
+    }
   };
 
   return (
@@ -24,7 +42,7 @@ export default function RSVP({ onAddWish }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="py-16 px-6 bg-[#E8F0F6] border-b border-gray-100" /* <-- Warna BG disamakan dengan Event */
+      className="py-16 px-6 bg-[#E8F0F6] border-b border-gray-100"
     >
       <div className="max-w-sm mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200">
         <h3 className="font-serif text-2xl text-center text-invitato font-bold mb-2">RSVP & Ucapan</h3>
@@ -85,9 +103,10 @@ export default function RSVP({ onAddWish }) {
 
           <button 
             type="submit"
-            className="w-full bg-invitato text-white font-sans py-2.5 rounded-md hover:bg-invitato/90 transition-all font-medium text-xs tracking-wider shadow-sm cursor-pointer"
+            disabled={isSubmitting}
+            className="w-full bg-invitato text-white font-sans py-2.5 rounded-md hover:bg-invitato/90 transition-all font-medium text-xs tracking-wider shadow-sm cursor-pointer disabled:opacity-50"
           >
-            Kirim RSVP
+            {isSubmitting ? 'Mengirim...' : 'Kirim RSVP'}
           </button>
         </form>
       </div>
