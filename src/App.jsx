@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from './supabaseClient'; // <-- Import koneksi Supabase
+import { supabase } from './supabaseClient';
 import Cover from './components/Cover';
 import Couple from './components/Couple';
 import Event from './components/Event';
@@ -59,7 +59,6 @@ export default function App() {
     fetchWishes();
   }, []);
 
-  // --- KIRIM WISHES BARU KE SUPABASE ---
   const handleAddWish = async (newWish) => {
     const { error } = await supabase
       .from('wishes')
@@ -69,7 +68,6 @@ export default function App() {
       console.error('Gagal mengirim ucapan:', error);
       alert('Terjadi kesalahan saat mengirim ucapan.');
     } else {
-      // Ambil ulang data terbaru setelah berhasil dikirim
       fetchWishes();
     }
   };
@@ -87,52 +85,38 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen w-screen overflow-hidden bg-[#DCE5ED] relative">
+    /* Latar belakang utama menggunakan nuansa Steel Blue lembut yang proporsional */
+    <div className="min-h-screen w-full bg-[#DCE5ED] flex justify-center items-center relative overflow-x-hidden">
       
       <audio ref={audioRef} src="/audio/cincin.mp3" loop />
 
+      {/* --- TOMBOL MUSIK MENGAMBANG --- */}
       {isOpen && (
         <motion.button
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
           onClick={toggleAudio}
-          className="fixed bottom-6 left-6 z-50 w-12 h-12 bg-[#3B6E8C] text-white rounded-full flex items-center justify-center shadow-xl hover:bg-[#3B6E8C]/90 transition-all cursor-pointer border-2 border-white/20"
+          className="fixed bottom-5 left-5 z-50 w-11 h-11 bg-[#3B6E8C] text-white rounded-full flex items-center justify-center shadow-lg hover:bg-[#3B6E8C]/90 transition-all cursor-pointer border-2 border-white/30"
         >
           {isPlaying ? (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 animate-[spin_3s_linear_infinite]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 animate-[spin_3s_linear_infinite]">
               <path strokeLinecap="round" strokeLinejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
             </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
             </svg>
           )}
         </motion.button>
       )}
 
-      <div className="hidden lg:block lg:w-[65%] h-full relative overflow-hidden">
-        <motion.img 
-          initial={{ scale: 1.05 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2, ease: "easeOut" }}
-          src="/images/hero.png" 
-          alt="Prewedding Backdrop" 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/10"></div>
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute top-[18%] right-[8%] text-right"
-        >
-          <p className="font-script text-3xl xl:text-4xl text-white mb-1 drop-shadow-md">the wedding of</p>
-          <h1 className="font-serif text-4xl xl:text-5xl tracking-[0.12em] text-white drop-shadow-md">WINDY & NAUFAL</h1>
-        </motion.div>
-      </div>
-
-      <div className="w-full lg:w-[35%] h-full bg-[#FDFDFC] overflow-y-auto shadow-2xl relative flex flex-col">
+      {/* 
+        KOTAK UTAMA UNDANGAN:
+        - Di HP: Lebar penuh (w-full) dengan tinggi menyesuaikan isi (min-h-screen).
+        - Di Laptop (lg): Menyerupai ukuran layar ponsel eksklusif yang elegan di tengah (max-w-[480px] h-[100vh] shadow-2xl).
+      */}
+      <div className="w-full lg:max-w-[480px] min-h-screen lg:h-screen bg-[#FDFDFC] overflow-y-auto relative flex flex-col shadow-2xl">
         
         {!isOpen ? (
           <Cover onOpen={() => {
@@ -145,12 +129,13 @@ export default function App() {
         ) : (
           <div className="flex flex-col w-full">
             
+            {/* 1. Sambutan & Ayat Suci */}
             <motion.section 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.8 }}
-              className="pt-8 pb-16 px-6 text-center bg-[#3B6E8C] text-white border-b border-white/10"
+              className="pt-10 pb-16 px-6 text-center bg-[#3B6E8C] text-white border-b border-white/10"
             >
               <p className="font-serif italic text-xs text-white/80 mb-2">Kepada, Bapak/Ibu/Saudara/i</p>
               <h3 className="font-serif text-2xl tracking-wider text-white font-bold mb-6">{guestName}</h3>
@@ -158,7 +143,7 @@ export default function App() {
               <p className="font-sans text-xs text-white/90 leading-relaxed mb-6 max-w-xs mx-auto">
                 Merajut sakinah bukan tentang ketiadaan badai, melainkan menemukan rumah. Kebahagiaan ini kian utuh dengan kehadiran Anda untuk merayakannya bersama kami.
               </p>
-              <div className="w-full h-72 bg-gray-200 mb-6 overflow-hidden shadow-sm">
+              <div className="w-full h-72 bg-gray-200 mb-6 overflow-hidden shadow-sm rounded-lg">
                 <img src="/images/hero.png" alt="Welcome" className="w-full h-full object-cover" />
               </div>
               <p className="font-serif italic text-xs text-white/90 leading-relaxed px-2">
@@ -167,9 +152,13 @@ export default function App() {
               <p className="font-serif text-[10px] text-white/70 mt-2">[QS. Ar-Rum: 21]</p>
             </motion.section>
 
+            {/* 2. The Couple */}
             <Couple />
+
+            {/* 3. Event / Save The Date */}
             <Event />
 
+            {/* 4. Countdown */}
             <motion.section 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -188,8 +177,10 @@ export default function App() {
               </div>
             </motion.section>
 
+            {/* 5. Gallery */}
             <Gallery />
 
+            {/* 6. Wedding Gift */}
             <motion.section 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -236,8 +227,10 @@ export default function App() {
               </div>
             </motion.section>
 
+            {/* 7. RSVP Form */}
             <RSVP onAddWish={handleAddWish} />
 
+            {/* 8. Kind Words */}
             <motion.section 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -268,6 +261,7 @@ export default function App() {
               </div>
             </motion.section>
 
+            {/* 9. Penutup */}
             <motion.section 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -281,7 +275,7 @@ export default function App() {
               </div>
               <h2 className="font-serif text-xl tracking-wider text-white mb-8">WINDY & NAUFAL</h2>
 
-              <div className="w-full h-72 bg-gray-200 overflow-hidden shadow-md mb-8">
+              <div className="w-full h-72 bg-gray-200 overflow-hidden shadow-md mb-8 rounded-lg">
                 <img 
                   src="/images/closing.png" 
                   alt="Closing Couple" 
