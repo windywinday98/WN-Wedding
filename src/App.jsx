@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { supabase } from './supabaseClient';
 import Cover from './components/Cover';
 import Couple from './components/Couple';
 import Event from './components/Event';
@@ -41,11 +42,37 @@ export default function App() {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   
-  // --- WISHES LIST (Dimulai kosong agar bersih) ---
+  // --- AMBIL DATA WISHES DARI SUPABASE ---
   const [wishesList, setWishesList] = useState([]);
 
-  const handleAddWish = (newWish) => {
-    setWishesList([newWish, ...wishesList]);
+  const fetchWishes = async () => {
+    const { data, error } = await supabase
+      .from('wishes')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Gagal memuat ucapan:', error);
+    } else {
+      setWishesList(data || []);
+    }
+  };
+
+  useEffect(() => {
+    fetchWishes();
+  }, []);
+
+  const handleAddWish = async (newWish) => {
+    const { error } = await supabase
+      .from('wishes')
+      .insert([newWish]);
+
+    if (error) {
+      console.error('Gagal mengirim ucapan:', error);
+      alert('Terjadi kesalahan saat mengirim ucapan.');
+    } else {
+      fetchWishes(); // Refresh data setelah berhasil dikirim
+    }
   };
 
   const toggleAudio = () => {
