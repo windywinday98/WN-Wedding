@@ -41,10 +41,8 @@ export default function App() {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   
-  const [wishesList, setWishesList] = useState([
-    { name: "Budi Santoso", attendance: "Siap hadir & ikut merayakan! 🎉", message: "Selamat menempuh hidup baru untuk Windy & Naufal! Semoga sakinah mawaddah warahmah." },
-    { name: "Siti Rahma", attendance: "Siap hadir & ikut merayakan! 🎉", message: "Barakallahu lakuma wa baraka 'alaikuma. Happy wedding!" }
-  ]);
+  // --- WISHES LIST (Dimulai kosong agar bersih) ---
+  const [wishesList, setWishesList] = useState([]);
 
   const handleAddWish = (newWish) => {
     setWishesList([newWish, ...wishesList]);
@@ -74,7 +72,7 @@ export default function App() {
         >
           {isPlaying ? (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 animate-[spin_3s_linear_infinite]">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
             </svg>
           ) : (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -84,6 +82,7 @@ export default function App() {
         </motion.button>
       )}
 
+      {/* SISI KIRI: Foto Backdrop Besar di PC */}
       <div className="hidden lg:block lg:w-[65%] h-full relative overflow-hidden">
         <motion.img 
           initial={{ scale: 1.05 }}
@@ -105,6 +104,7 @@ export default function App() {
         </motion.div>
       </div>
 
+      {/* SISI KANAN: Konten Undangan */}
       <div className="w-full lg:w-[35%] h-full bg-[#FDFDFC] overflow-y-auto shadow-2xl relative flex flex-col">
         
         {!isOpen ? (
@@ -211,6 +211,7 @@ export default function App() {
 
             <RSVP onAddWish={handleAddWish} />
 
+            {/* KIND WORDS SECTION */}
             <motion.section 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -223,17 +224,23 @@ export default function App() {
               <p className="font-serif italic text-xs text-gray-500 text-center mb-6">"Love is the natural trajectory woven into every being. It is a quiet, cosmic longing that draws all existence toward kamāl, its truest perfection and highest good." - Ibn Sina</p>
 
               <div className="max-w-sm mx-auto space-y-3 max-h-80 overflow-y-auto pr-1">
-                {wishesList.map((wish, index) => (
-                  <div key={index} className="bg-[#F8FAFC] p-4 rounded-xl border border-gray-200/80 text-left shadow-xs">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="font-serif font-bold text-xs text-invitato">{wish.name}</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium">
-                        {wish.attendance}
-                      </span>
+                {wishesList.length === 0 ? (
+                  <p className="text-center text-xs text-gray-400 italic py-4">
+                    Belum ada yang memberikan ucapan, jadilah yang pertama!
+                  </p>
+                ) : (
+                  wishesList.map((wish, index) => (
+                    <div key={index} className="bg-[#F8FAFC] p-4 rounded-xl border border-gray-200/80 text-left shadow-xs">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-serif font-bold text-xs text-invitato">{wish.name}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium">
+                          {wish.attendance}
+                        </span>
+                      </div>
+                      <p className="font-sans text-[11px] text-gray-600 leading-relaxed italic">"{wish.message}"</p>
                     </div>
-                    <p className="font-sans text-[11px] text-gray-600 leading-relaxed italic">"{wish.message}"</p>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </motion.section>
 
