@@ -6,6 +6,8 @@ import Couple from './components/Couple';
 import Event from './components/Event';
 import RSVP from './components/RSVP';
 import Gallery from './components/Gallery';
+import Divider from './components/Divider';
+import MandalaLogo from './components/MandalaLogo';
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -145,27 +147,71 @@ export default function App() {
         ) : (
           <div className="flex flex-col w-full">
             
-            <motion.section 
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8 }}
-              className="pt-8 pb-16 px-6 text-center bg-[#3B6E8C] text-white border-b border-white/10"
-            >
-              <p className="font-serif italic text-xs text-white/80 mb-2">Kepada, Bapak/Ibu/Saudara/i</p>
-              <h3 className="font-serif text-2xl tracking-wider text-white font-bold mb-6">{guestName}</h3>
-              <div className="w-16 h-px bg-white/30 mx-auto mb-6"></div>
-              <p className="font-sans text-xs text-white/90 leading-relaxed mb-6 max-w-xs mx-auto">
+            {/* BAGIAN SAMBUTAN & FOTO DENGAN MOTION TERPISAH */}
+            <section className="pt-8 pb-16 px-6 text-center bg-[#3B6E8C] text-white border-b border-white/10 overflow-hidden">
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="font-serif italic text-xs text-white/80 mb-2"
+              >
+                Kepada, Bapak/Ibu/Saudara/i
+              </motion.p>
+
+              <motion.h3 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="font-serif text-2xl tracking-wider text-white font-bold mb-6"
+              >
+                {guestName}
+              </motion.h3>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <Divider className="text-white/80 mb-6" />
+              </motion.div>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="font-sans text-xs text-white/90 leading-relaxed mb-6 max-w-xs mx-auto"
+              >
                 Merajut sakinah bukan tentang ketiadaan badai, melainkan menemukan rumah. Kebahagiaan ini kian utuh dengan kehadiran Anda untuk merayakannya bersama kami.
-              </p>
-              <div className="w-full h-72 bg-gray-200 mb-6 overflow-hidden shadow-sm">
-                <img src="/images/hero.png" alt="Welcome" className="w-full h-full object-cover" />
-              </div>
-              <p className="font-serif italic text-xs text-white/90 leading-relaxed px-2">
-                "Dan di antara tanda-tanda keagungan-Nya, Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri, agar kamu menemukan ketenangan batin di sisinya, serta menumbuhkan rasa cinta dan kasih sayang di antara kalian. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda kebesaran Allah bagi kaum yang mau berpikir."
-              </p>
-              <p className="font-serif text-[10px] text-white/70 mt-2">[QS. Ar-Rum: 21]</p>
-            </motion.section>
+              </motion.p>
+
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="w-full h-72 bg-gray-200 mb-6 overflow-hidden shadow-md rounded-lg"
+              >
+                <img src="/images/hero.png" alt="Welcome" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <p className="font-serif italic text-xs text-white/90 leading-relaxed px-2">
+                  "Dan di antara tanda-tanda keagungan-Nya, Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri, agar kamu menemukan ketenangan batin di sisinya, serta menumbuhkan rasa cinta dan kasih sayang di antara kalian. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda kebesaran Allah bagi kaum yang berpikir."
+                </p>
+                <p className="font-serif text-[10px] text-white/70 mt-2">[QS. Ar-Rum: 21]</p>
+              </motion.div>
+
+            </section>
 
             <Couple />
             <Event />
@@ -198,7 +244,7 @@ export default function App() {
               className="py-14 px-6 text-center bg-[#FDFDFC] border-b border-gray-100"
             >
               <p className="font-script text-4xl text-invitato mb-1">Wedding Gift</p>
-              <div className="w-10 h-px bg-invitato/30 mx-auto mb-6"></div>
+              <Divider />
               <p className="font-sans text-[11px] text-gray-600 mb-6 leading-relaxed max-w-xs mx-auto">
                 Bagi keluarga dan kerabat yang ingin mengirimkan tanda kasih, dapat melalui nomor rekening berikut:
               </p>
@@ -247,7 +293,7 @@ export default function App() {
               className="py-16 px-6 bg-[#FDFDFC] border-b border-gray-100"
             >
               <p className="font-script text-4xl text-invitato mb-1 text-center">Kind Words</p>
-              <div className="w-10 h-px bg-invitato/30 mx-auto mb-6"></div>
+              <Divider />
               <p className="font-serif italic text-xs text-gray-500 text-center mb-6">"Love is the natural trajectory woven into every being. It is a quiet, cosmic longing that draws all existence toward kamāl, its truest perfection and highest good." - Ibn Sina</p>
 
               <div className="max-w-sm mx-auto space-y-3 max-h-80 overflow-y-auto pr-1">
@@ -271,6 +317,7 @@ export default function App() {
               </div>
             </motion.section>
 
+            {/* CLOSING SECTION */}
             <motion.section 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -279,12 +326,12 @@ export default function App() {
               className="py-16 px-6 text-center bg-[#3B6E8C] text-white"
             >
               <p className="font-serif tracking-widest text-xs text-white/80 uppercase mb-6">OUR SINCERE REGARDS,</p>
-              <div className="w-20 h-20 border-2 border-white/60 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="font-serif text-2xl text-white tracking-wider font-bold">WN</span>
-              </div>
+              
+              <MandalaLogo className="text-white mb-4" />
+
               <h2 className="font-serif text-xl tracking-wider text-white mb-8">WINDY & NAUFAL</h2>
 
-              <div className="w-full h-72 bg-gray-200 overflow-hidden shadow-md mb-8">
+              <div className="w-full h-72 bg-gray-200 overflow-hidden shadow-md mb-8 rounded-xl">
                 <img 
                   src="/images/closing.png" 
                   alt="Closing Couple" 

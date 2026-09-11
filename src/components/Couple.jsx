@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Divider from './Divider';
 
 export default function Couple() {
   return (
@@ -11,7 +12,7 @@ export default function Couple() {
     >
       
       <p className="font-script text-5xl text-invitato mb-4 text-center">The Couple</p>
-      <div className="w-12 h-px bg-invitato/30 mx-auto mb-16"></div>
+      <Divider />
 
       <div className="w-full max-w-[360px] relative flex flex-col items-center">
         
@@ -45,10 +46,19 @@ export default function Couple() {
           </motion.div>
         </div>
 
-        {/* SIMBOL & */}
-        <div className="absolute left-[45%] top-[50%] -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
-          <span className="font-script text-7xl text-invitato drop-shadow-sm">&</span>
-        </div>
+       {/* TANDA & (TANPA LINGKARAN & WARNA EMAS) */}
+        <motion.div 
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
+          className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center"
+        >
+          {/* Menggunakan text-[#C8A97E] untuk warna emas elegan dengan efek drop shadow agar kontras */}
+          <span className="font-script text-6xl lg:text-7xl text-[#C8A97E] leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+            &
+          </span>
+        </motion.div>
 
         {/* BARIS 2: NAUFAL */}
         <div className="w-full flex items-center justify-between mt-4">

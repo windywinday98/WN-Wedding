@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Divider from './Divider';
 
 // Pastikan ekstensi (.png / .jpg) sesuai dengan file aslinya di folder public/images/
 const images = [
   "/images/gal-1.png",
   "/images/gal-2.png",
-  "/images/gal-3.png",
   "/images/gal-4.png",
   "/images/gal-5.png",
   "/images/gal-6.png",
@@ -38,7 +38,7 @@ export default function Gallery() {
       className="py-16 px-4 text-center bg-[#FDFDFC] border-b border-gray-100 overflow-hidden relative"
     >
       <p className="font-script text-5xl text-invitato mb-4 text-center">Our Gallery</p>
-      <div className="w-10 h-px bg-invitato/30 mx-auto mb-8"></div>
+      <Divider />
 
       <div className="relative flex items-center justify-center h-[420px] w-full max-w-md mx-auto overflow-hidden select-none">
         {images.map((img, idx) => {
