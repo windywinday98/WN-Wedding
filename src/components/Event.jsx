@@ -10,7 +10,7 @@ export default function Event() {
         {/* CONTAINER UTAMA FOTO SEBAGAI BACKGROUND */}
         <div className="relative w-full min-h-[580px] lg:min-h-[520px] flex items-center">
           <img 
-            src="/images/DSC03242.jpg" 
+            src="/images/event.png" 
             alt="Windy & Naufal Save The Date" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -56,7 +56,7 @@ export default function Event() {
               {/* TOMBOL LIHAT LOKASI */}
               <div>
                 <a 
-                  href="https://maps.app.goo.gl/..." 
+                  href="https://maps.app.goo.gl/RUBjF7pmZMJnoKAc9" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-block bg-[#3B6E8C] text-white font-serif text-xs lg:text-sm tracking-wider px-6 py-2.5 rounded-full shadow-lg hover:bg-[#2c536c] transition-all border border-white/30"
