@@ -8,8 +8,14 @@ export default function Event() {
       <div className="max-w-4xl w-full mx-auto relative rounded-3xl overflow-hidden shadow-2xl">
         
         {/* CONTAINER UTAMA FOTO SEBAGAI BACKGROUND */}
-        <div className="relative w-full min-h-[580px] lg:min-h-[520px] flex items-center">
-          <img 
+        <div className="relative w-full min-h-[580px] lg:min-h-[520px] flex items-center overflow-hidden">
+          
+          {/* FOTO DENGAN EFEK MOTION ZOOM IN */}
+          <motion.img 
+            initial={{ scale: 1.12 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
             src="/images/event.png" 
             alt="Windy & Naufal Save The Date" 
             className="absolute inset-0 w-full h-full object-cover"
@@ -24,7 +30,7 @@ export default function Event() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               className="w-full lg:w-[48%] flex flex-col items-center lg:items-end text-center lg:text-right"
             >
               <h2 className="font-script text-4xl lg:text-5xl text-[#C2D9ED] mb-1 drop-shadow-lg">Save The Date</h2>
