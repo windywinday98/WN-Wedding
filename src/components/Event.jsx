@@ -33,7 +33,7 @@ export default function Event() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="w-full lg:w-[48%] flex flex-col items-center lg:items-end text-center lg:text-right"
             >
-              <h2 className="font-script text-4xl lg:text-5xl text-[#C2D9ED] mb-1 drop-shadow-lg">Save The Date</h2>
+              <h2 className="font-script text-4xl lg:text-5xl text-[#C2D9ED] mb-1 drop-shadow-lg">Save<br />The Date</h2>
               
               <p className="font-serif text-sm lg:text-base font-medium text-white mb-2 drop-shadow-md">Minggu, 27 September 2026</p>
               
