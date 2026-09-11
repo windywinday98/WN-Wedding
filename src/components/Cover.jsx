@@ -19,7 +19,7 @@ export default function Cover({ onOpen }) {
         <h1 className="font-serif text-3xl md:text-4xl tracking-[0.15em] text-invitato font-medium leading-tight">
           WINDY <span className="font-light">&</span><br />NAUFAL
         </h1>
-        <p className="font-script text-2xl text-invitato mt-0.5">wedding day</p>
+        <p className="font-script text-2xl text-invitato mt-0.5">Wedding Day</p>
       </motion.div>
 
       {/* Foto Cover dengan tinggi yang proporsional di HP */}
