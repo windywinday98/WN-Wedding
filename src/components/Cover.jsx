@@ -32,7 +32,7 @@ export default function Cover({ onOpen }) {
       >
         {/* Pastikan nama file fotonya sesuai, misalnya hero.png atau nama lain yg kamu pakai */}
         <img 
-          src="/images/hero.png" 
+          src="/images/welcome.png" 
           alt="Windy & Naufal Cover" 
           className="w-full h-full object-cover object-center"
         />
