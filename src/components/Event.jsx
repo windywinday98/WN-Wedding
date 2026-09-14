@@ -37,7 +37,10 @@ export default function Event() {
               
               <p className="font-serif text-sm sm:text-base lg:text-lg font-medium text-white mb-3 drop-shadow-md">Minggu, 27 September 2026</p>
               
-              <Divider className="text-white mb-4" />
+              {/* DIVIDER DIPAKSA RATA KANAN DENGAN ml-auto mr-0 */}
+              <div className="w-full flex justify-end mb-4">
+                <Divider className="text-white !mx-0" />
+              </div>
 
               {/* AKAD */}
               <div className="mb-3 w-full">
