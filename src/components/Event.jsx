@@ -16,7 +16,7 @@ export default function Event() {
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            src="/images/DSC03242.jpg" 
+            src="/images/event.png" 
             alt="Windy & Naufal Save The Date" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -62,7 +62,7 @@ export default function Event() {
               {/* TOMBOL LIHAT LOKASI */}
               <div>
                 <a 
-                  href="https://maps.app.goo.gl/..." 
+                  href="https://maps.app.goo.gl/2iHmGzZ8UEtXhy2FA" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-block bg-[#3B6E8C] text-white font-serif text-xs lg:text-sm tracking-wider px-5 py-2 sm:px-6 sm:py-2.5 rounded-full shadow-lg hover:bg-[#2c536c] transition-all border border-white/30"
