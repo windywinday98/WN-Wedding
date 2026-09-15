@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../supabaseClient';
+import Divider from './Divider';
 
 export default function RSVP({ onAddWish }) {
   const [name, setName] = useState('');
@@ -12,13 +13,17 @@ export default function RSVP({ onAddWish }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Mencegah klik double
+    // Mencegah klik double (mengatasi masalah data double)
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    await onAddWish(formData);
+    // Mengirim data ke fungsi utama
+    await onAddWish({ name, attendance, message });
 
-    setFormData({ name: '', attendance: 'Siap hadir & ikut merayakan! 🎉', message: '' });
+    // Reset form, matikan loading, dan tampilkan modal sukses
+    setName('');
+    setAttendance('Siap hadir & ikut merayakan! 🎉');
+    setMessage('');
     setIsSubmitting(false);
     setShowModal(true);
 
@@ -34,12 +39,13 @@ export default function RSVP({ onAddWish }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="py-16 px-6 bg-[#E8F0F6] border-b border-gray-100"
+      className="py-16 px-6 bg-[#FDFDFC] border-b border-gray-100 relative"
     >
-      <div className="max-w-sm mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-        <h3 className="font-serif text-2xl text-center text-invitato font-bold mb-2">RSVP & Ucapan</h3>
-        <p className="text-[11px] text-center text-gray-500 mb-6 font-sans">Berikan konfirmasi kehadiran dan doa terbaik Anda</p>
-        
+      <div className="max-w-md mx-auto">
+        <p className="font-script text-4xl text-[#3B6E8C] mb-1 text-center">RSVP & Ucapan</p>
+        <Divider className="mb-4" />
+        <p className="font-sans text-xs text-gray-500 text-center mb-8">Berikan konfirmasi kehadiran dan doa terbaik Anda</p>
+
         <form onSubmit={handleSubmit} className="space-y-4 text-xs font-sans">
           <div>
             <label className="block text-gray-500 mb-1">Nama Anda</label>
@@ -48,7 +54,7 @@ export default function RSVP({ onAddWish }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Masukkan nama..." 
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-invitato"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#3B6E8C]"
               required
             />
           </div>
@@ -61,21 +67,23 @@ export default function RSVP({ onAddWish }) {
                 onClick={() => setAttendance('Siap hadir & ikut merayakan! 🎉')}
                 className={`py-2.5 px-3 rounded-md text-xs font-medium transition-all cursor-pointer border text-center ${
                   attendance === 'Siap hadir & ikut merayakan! 🎉'
-                    ? 'bg-invitato text-white border-invitato shadow-xs'
+                    ? 'bg-[#3B6E8C] text-white border-[#3B6E8C] shadow-xs'
                     : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
                 }`}
               >
                 Siap hadir & ikut merayakan! 🎉
               </button>
-              <button 
-    type="submit" 
-    disabled={isSubmitting}
-    className={`w-full text-white font-serif tracking-wider text-sm py-3.5 rounded-xl shadow-md transition-all ${
-      isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3B6E8C] hover:bg-[#2c536c] active:scale-[0.98]'
-    }`}
-  >
-    {isSubmitting ? 'Mengirim...' : 'Kirim Ucapan'}
-  </button>
+              <button
+                type="button"
+                onClick={() => setAttendance('Belum bisa hadir, tapi doa menyertai 🙏')}
+                className={`py-2.5 px-3 rounded-md text-xs font-medium transition-all cursor-pointer border text-center ${
+                  attendance === 'Belum bisa hadir, tapi doa menyertai 🙏'
+                    ? 'bg-[#3B6E8C] text-white border-[#3B6E8C] shadow-xs'
+                    : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+                }`}
+              >
+                Belum bisa hadir, tapi doa menyertai 🙏
+              </button>
             </div>
           </div>
 
@@ -86,7 +94,7 @@ export default function RSVP({ onAddWish }) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Tulis ucapan..." 
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-invitato resize-none"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#3B6E8C] resize-none"
               required
             ></textarea>
           </div>
@@ -94,14 +102,14 @@ export default function RSVP({ onAddWish }) {
           <button 
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-invitato text-white font-sans py-2.5 rounded-md hover:bg-invitato/90 transition-all font-medium text-xs tracking-wider shadow-sm cursor-pointer disabled:opacity-50"
+            className="w-full bg-[#3B6E8C] text-white font-sans py-2.5 rounded-md hover:bg-[#2c536c] transition-all font-medium text-xs tracking-wider shadow-sm cursor-pointer disabled:opacity-50"
           >
             {isSubmitting ? 'Mengirim...' : 'Kirim RSVP'}
           </button>
         </form>
       </div>
     
-    {/* MODAL POP-UP SUCCESS (Menggantikan Alert Bawaan) */}
+      {/* MODAL POP-UP SUCCESS (Estetik & Mencegah Alert Bawaan) */}
       <AnimatePresence>
         {showModal && (
           <motion.div 
@@ -123,7 +131,7 @@ export default function RSVP({ onAddWish }) {
               </div>
               <h3 className="font-serif text-xl text-[#3B6E8C] font-bold mb-2">Terima Kasih!</h3>
               <p className="font-sans text-xs text-gray-500 leading-relaxed">
-                RSVP & ucapan tulus Anda telah berhasil dikirimkan.
+                Terima kasih, RSVP & ucapan Anda berhasil dikirim.
               </p>
             </motion.div>
           </motion.div>
