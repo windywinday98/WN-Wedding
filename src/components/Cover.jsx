@@ -5,7 +5,7 @@ export default function Cover({ onOpen }) {
   return (
     <div className="flex flex-col items-center justify-between h-[100dvh] w-full py-6 lg:py-8 px-4 bg-[#FDFDFC] overflow-hidden">
       
-      {/* BAGIAN ATAS: NAMA & JUDUL (Diperkecil agar lebih elegan) */}
+      {/* BAGIAN ATAS: NAMA & JUDUL */}
       <motion.div 
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -20,16 +20,20 @@ export default function Cover({ onOpen }) {
         </p>
       </motion.div>
 
-      {/* BAGIAN TENGAH: FOTO (SUPER FLEKSIBEL) */}
+      {/* BAGIAN TENGAH: FOTO */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
-        // flex-1 dan min-h-0 adalah kunci agar wadah ini OTOMATIS menyesuaikan sisa layar!
-        className="flex-1 min-h-0 flex justify-center items-center w-full my-4"
+        // Jarak margin (my) di HP dikurangi jadi my-2 agar ada sisa ruang lebih banyak untuk foto
+        // Untuk PC dikunci di lg:my-4 (tidak berubah dari sebelumnya)
+        className="flex-1 min-h-0 flex justify-center items-center w-full my-2 lg:my-4"
       >
-        {/* max-h akan membatasi tinggi maksimal di PC besar, namun h-full memastikannya mengecil di laptop kecil */}
-        <div className="w-full h-full max-w-[260px] sm:max-w-[320px] max-h-[380px] lg:max-h-[460px] rounded-[2rem] overflow-hidden shadow-2xl relative shrink-0">
+        {/* 
+          - HP: max-w dinaikkan ke 320px dan max-h ke 520px (foto jauh lebih lebar & panjang)
+          - PC: lg:max-h-[460px] mengunci tampilan PC agar persis sama dengan versi sebelumnya
+        */}
+        <div className="w-full h-full max-w-[320px] max-h-[520px] lg:max-h-[460px] rounded-[2rem] overflow-hidden shadow-2xl relative shrink-0">
           <img 
             src="/images/welcome.png" 
             alt="Windy & Naufal Cover" 
