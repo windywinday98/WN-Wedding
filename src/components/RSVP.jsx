@@ -7,33 +7,25 @@ export default function RSVP({ onAddWish }) {
   const [attendance, setAttendance] = useState('Siap hadir & ikut merayakan! 🎉');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !message.trim()) {
-      alert('Mohon isi nama dan ucapan terlebih dahulu.');
-      return;
-    }
-
+    
+    // Mencegah klik double
+    if (isSubmitting) return;
     setIsSubmitting(true);
 
-    // Kirim langsung ke tabel wishes di Supabase
-    const { error } = await supabase
-      .from('wishes')
-      .insert([{ name, attendance, message }]);
+    await onAddWish(formData);
 
+    setFormData({ name: '', attendance: 'Siap hadir & ikut merayakan! 🎉', message: '' });
     setIsSubmitting(false);
+    setShowModal(true);
 
-    if (error) {
-      console.error('Gagal mengirim ucapan:', error);
-      alert('Terjadi kesalahan saat mengirim ucapan. Silakan coba lagi.');
-    } else {
-      // Panggil fungsi pembantu dari App.jsx untuk memperbarui daftar di layar
-      onAddWish({ name, attendance, message });
-      setName('');
-      setMessage('');
-      alert('Terima kasih! RSVP & ucapan Anda berhasil dikirim.');
-    }
+    // Pop-up hilang otomatis setelah 3 detik
+    setTimeout(() => {
+      setShowModal(false);
+    }, 3000);
   };
 
   return (
@@ -75,17 +67,15 @@ export default function RSVP({ onAddWish }) {
               >
                 Siap hadir & ikut merayakan! 🎉
               </button>
-              <button
-                type="button"
-                onClick={() => setAttendance('Belum bisa hadir, tapi doa menyertai 🙏')}
-                className={`py-2.5 px-3 rounded-md text-xs font-medium transition-all cursor-pointer border text-center ${
-                  attendance === 'Belum bisa hadir, tapi doa menyertai 🙏'
-                    ? 'bg-invitato text-white border-invitato shadow-xs'
-                    : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className={`w-full text-white font-serif tracking-wider text-sm py-3.5 rounded-xl shadow-md transition-all ${
+                isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3B6E8C] hover:bg-[#2c536c] active:scale-[0.98]'
                 }`}
-              >
-                Belum bisa hadir, tapi doa menyertai 🙏
-              </button>
+  >
+                {isSubmitting ? 'Mengirim...' : 'Kirim Ucapan'}
+             </button>
             </div>
           </div>
 
@@ -110,6 +100,15 @@ export default function RSVP({ onAddWish }) {
           </button>
         </form>
       </div>
+      {showModal && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center p-6 bg-white/60 backdrop-blur-sm">
+          <div className="bg-white px-6 py-6 rounded-2xl shadow-2xl border border-gray-100 text-center max-w-sm w-full">
+            <p className="font-serif text-sm text-[#3B6E8C] font-semibold leading-relaxed">
+              Terima kasih, RSVP & ucapan Anda berhasil dikirim.
+            </p>
+          </div>
+        </div>
+      )}
     </motion.section>
   );
 }
