@@ -77,6 +77,13 @@ export default function App() {
     }
   };
 
+  // --- FILTER AGAR TIDAK ADA DATA UCAPAN YANG TAMPIL DOUBLE ---
+  const uniqueWishes = wishesList.filter((wish, index, self) => 
+    index === self.findIndex((w) => 
+      w.name === wish.name && w.message === wish.message
+    )
+  );
+
   const toggleAudio = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -297,19 +304,23 @@ export default function App() {
               <p className="font-serif italic text-xs text-gray-500 text-center mb-6">"Love is the natural trajectory woven into every being. It is a quiet, cosmic longing that draws all existence toward kamāl, its truest perfection and highest good." - Ibn Sina</p>
 
               <div className="max-w-sm mx-auto space-y-3 max-h-80 overflow-y-auto pr-1">
-                {wishesList.length === 0 ? (
+                {uniqueWishes.length === 0 ? (
                   <p className="text-center text-xs text-gray-400 italic py-4">
                     Belum ada yang memberikan ucapan, jadilah yang pertama!
                   </p>
                 ) : (
-                  {/* Gunakan uniqueWishes alih-alih wishes */}
-{uniqueWishes.map((wish, index) => (
-  <div key={wish.id || index} className="p-4 bg-white rounded-xl shadow-sm border border-gray-100">
-    <h4 className="font-bold text-sm text-gray-800">{wish.name}</h4>
-    <p className="text-xs text-emerald-600 mb-1">{wish.attendance}</p>
-    <p className="text-xs text-gray-600 italic">"{wish.message}"</p>
-  </div>
-))}
+                  uniqueWishes.map((wish, index) => (
+                    <div key={wish.id || index} className="bg-[#F8FAFC] p-4 rounded-xl border border-gray-200/80 text-left shadow-xs">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-serif font-bold text-xs text-invitato">{wish.name}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium">
+                          {wish.attendance}
+                        </span>
+                      </div>
+                      <p className="font-sans text-[11px] text-gray-600 leading-relaxed italic">"{wish.message}"</p>
+                    </div>
+                  ))
+                )}
               </div>
             </motion.section>
 
