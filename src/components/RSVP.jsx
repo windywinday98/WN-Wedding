@@ -1,36 +1,28 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Divider from './Divider';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { supabase } from '../supabaseClient';
 
 export default function RSVP({ onAddWish }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    attendance: 'Siap hadir & ikut merayakan! 🎉',
-    message: ''
-  });
-  
-  // State untuk mengunci tombol (mencegah double submit)
+  const [name, setName] = useState('');
+  const [attendance, setAttendance] = useState('Siap hadir & ikut merayakan! 🎉');
+  const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // State untuk memunculkan pop-up modal estetik
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Cegah submit ganda jika sedang loading
+    // Mencegah klik double
     if (isSubmitting) return;
-    
     setIsSubmitting(true);
 
-    // Jalankan fungsi tambah data ke Supabase dari App.jsx
     await onAddWish(formData);
 
-    // Setelah berhasil: reset form, matikan loading, dan tampilkan pop-up
     setFormData({ name: '', attendance: 'Siap hadir & ikut merayakan! 🎉', message: '' });
     setIsSubmitting(false);
     setShowModal(true);
 
-    // Pop-up akan hilang otomatis setelah 3 detik
+    // Pop-up hilang otomatis setelah 3 detik
     setTimeout(() => {
       setShowModal(false);
     }, 3000);
@@ -42,63 +34,74 @@ export default function RSVP({ onAddWish }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
-      className="py-16 px-6 bg-[#FDFDFC] border-b border-gray-100 relative"
+      className="py-16 px-6 bg-[#E8F0F6] border-b border-gray-100"
     >
-      <div className="max-w-md mx-auto">
-        <p className="font-script text-4xl text-[#3B6E8C] mb-1 text-center">RSVP & Ucapan</p>
-        <Divider className="mb-4" />
-        <p className="font-sans text-xs text-gray-500 text-center mb-8">Berikan konfirmasi kehadiran dan doa terbaik Anda</p>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="max-w-sm mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+        <h3 className="font-serif text-2xl text-center text-invitato font-bold mb-2">RSVP & Ucapan</h3>
+        <p className="text-[11px] text-center text-gray-500 mb-6 font-sans">Berikan konfirmasi kehadiran dan doa terbaik Anda</p>
+        
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs font-sans">
           <div>
-            <label className="block font-serif text-xs text-gray-600 mb-1.5 ml-1">Nama Anda</label>
+            <label className="block text-gray-500 mb-1">Nama Anda</label>
             <input 
               type="text" 
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Masukkan nama..." 
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-invitato"
               required
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full bg-[#F4F7F9] border border-gray-200/60 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#3B6E8C]/50 focus:ring-1 focus:ring-[#3B6E8C]/50 transition-all text-gray-700"
-              placeholder="Tuliskan nama Anda"
             />
           </div>
 
           <div>
-            <label className="block font-serif text-xs text-gray-600 mb-1.5 ml-1">Konfirmasi Kehadiran</label>
-            <select 
-              value={formData.attendance}
-              onChange={(e) => setFormData({ ...formData, attendance: e.target.value })}
-              className="w-full bg-[#F4F7F9] border border-gray-200/60 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#3B6E8C]/50 focus:ring-1 focus:ring-[#3B6E8C]/50 transition-all text-gray-700 appearance-none"
-            >
-              <option value="Siap hadir & ikut merayakan! 🎉">Siap hadir & ikut merayakan! 🎉</option>
-              <option value="Belum bisa hadir, tapi doa menyertai 🙏">Belum bisa hadir, tapi doa menyertai 🙏</option>
-            </select>
+            <label className="block text-gray-500 mb-1.5">Konfirmasi Kehadiran</label>
+            <div className="grid grid-cols-1 gap-2">
+              <button
+                type="button"
+                onClick={() => setAttendance('Siap hadir & ikut merayakan! 🎉')}
+                className={`py-2.5 px-3 rounded-md text-xs font-medium transition-all cursor-pointer border text-center ${
+                  attendance === 'Siap hadir & ikut merayakan! 🎉'
+                    ? 'bg-invitato text-white border-invitato shadow-xs'
+                    : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+                }`}
+              >
+                Siap hadir & ikut merayakan! 🎉
+              </button>
+              <button 
+    type="submit" 
+    disabled={isSubmitting}
+    className={`w-full text-white font-serif tracking-wider text-sm py-3.5 rounded-xl shadow-md transition-all ${
+      isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3B6E8C] hover:bg-[#2c536c] active:scale-[0.98]'
+    }`}
+  >
+    {isSubmitting ? 'Mengirim...' : 'Kirim Ucapan'}
+  </button>
+            </div>
           </div>
 
           <div>
-            <label className="block font-serif text-xs text-gray-600 mb-1.5 ml-1">Pesan & Doa</label>
+            <label className="block text-gray-500 mb-1">Berikan ucapan atau doa...</label>
             <textarea 
+              rows="3" 
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Tulis ucapan..." 
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-invitato resize-none"
               required
-              rows="4"
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full bg-[#F4F7F9] border border-gray-200/60 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#3B6E8C]/50 focus:ring-1 focus:ring-[#3B6E8C]/50 transition-all text-gray-700 resize-none"
-              placeholder="Tuliskan doa terbaik untuk kami..."
             ></textarea>
           </div>
 
           <button 
-            type="submit" 
+            type="submit"
             disabled={isSubmitting}
-            className={`w-full text-white font-serif tracking-wider text-sm py-3.5 rounded-xl shadow-md transition-all ${
-              isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#3B6E8C] hover:bg-[#2c536c] active:scale-[0.98]'
-            }`}
+            className="w-full bg-invitato text-white font-sans py-2.5 rounded-md hover:bg-invitato/90 transition-all font-medium text-xs tracking-wider shadow-sm cursor-pointer disabled:opacity-50"
           >
-            {isSubmitting ? 'Mengirim...' : 'Kirim Ucapan'}
+            {isSubmitting ? 'Mengirim...' : 'Kirim RSVP'}
           </button>
         </form>
       </div>
-
-      {/* MODAL POP-UP SUCCESS (Menggantikan Alert Bawaan) */}
+    
+    {/* MODAL POP-UP SUCCESS (Menggantikan Alert Bawaan) */}
       <AnimatePresence>
         {showModal && (
           <motion.div 
