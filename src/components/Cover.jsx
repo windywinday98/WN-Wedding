@@ -3,31 +3,31 @@ import { motion } from 'framer-motion';
 
 export default function Cover({ onOpen }) {
   return (
-    // h-[100dvh] dan overflow-hidden mengunci seluruh halaman tepat 1 layar penuh tanpa bisa di-scroll
-    <div className="flex flex-col items-center justify-between h-[100dvh] w-full py-4 sm:py-6 px-4 bg-[#FDFDFC] overflow-hidden">
+    // Tetap h-[100dvh] dan overflow-hidden agar 1 layar penuh tanpa scroll
+    <div className="flex flex-col items-center justify-between h-[100dvh] w-full py-8 lg:py-10 px-4 bg-[#FDFDFC] overflow-hidden">
       
-      {/* BAGIAN ATAS: NAMA & JUDUL */}
+      {/* BAGIAN ATAS: NAMA & JUDUL (Diperbesar untuk PC) */}
       <motion.div 
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="text-center shrink-0"
       >
-        <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.2em] text-[#3B6E8C] mb-1 uppercase leading-snug">
+        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl tracking-[0.2em] text-[#3B6E8C] mb-2 uppercase leading-snug">
           Windy &<br/>Naufal
         </h1>
-        <p className="font-script text-3xl sm:text-4xl text-[#3B6E8C]">
+        <p className="font-script text-4xl sm:text-5xl lg:text-6xl text-[#3B6E8C]">
           Wedding Day
         </p>
       </motion.div>
 
-      {/* BAGIAN TENGAH: FOTO (TINGGINYA MENYESUAIKAN LAYAR / VIEWPORT) */}
+      {/* BAGIAN TENGAH: FOTO (Porsi tinggi ditambah jadi 55% layar di PC) */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
-        // Menggunakan h-[38vh] sampai h-[45vh] agar fotonya proporsional dan dijamin muat di satu layar
-        className="w-auto h-[38vh] sm:h-[42vh] lg:h-[45vh] aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl relative shrink-0 my-2"
+        // Dari lg:h-[45vh] dinaikkan jadi lg:h-[55vh] agar jauh lebih besar di PC
+        className="w-auto h-[40vh] sm:h-[45vh] lg:h-[55vh] aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl relative shrink-0 my-4"
       >
         <img 
           src="/images/welcome.png" 
@@ -36,19 +36,19 @@ export default function Cover({ onOpen }) {
         />
       </motion.div>
 
-      {/* BAGIAN BAWAH: TANGGAL & TOMBOL */}
+      {/* BAGIAN BAWAH: TANGGAL & TOMBOL (Diperbesar untuk PC) */}
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
         className="text-center flex flex-col items-center shrink-0"
       >
-        <p className="font-serif tracking-[0.3em] text-xs sm:text-sm text-[#3B6E8C] mb-2 sm:mb-3">
+        <p className="font-serif tracking-[0.3em] text-sm sm:text-base lg:text-xl text-[#3B6E8C] mb-4 sm:mb-5">
           27 / 09 / 2026
         </p>
         <button 
           onClick={onOpen} 
-          className="bg-[#3B6E8C] text-white px-8 py-2.5 sm:py-3 rounded-full font-serif text-xs sm:text-sm tracking-wider hover:bg-[#2c536c] transition-all shadow-lg active:scale-95 cursor-pointer"
+          className="bg-[#3B6E8C] text-white px-8 py-3 lg:px-12 lg:py-3.5 rounded-full font-serif text-sm lg:text-base tracking-wider hover:bg-[#2c536c] transition-all shadow-lg active:scale-95 cursor-pointer"
         >
           Buka Undangan
         </button>
