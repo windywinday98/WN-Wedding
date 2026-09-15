@@ -3,67 +3,57 @@ import { motion } from 'framer-motion';
 
 export default function Cover({ onOpen }) {
   return (
-    // min-h-[100dvh] untuk tinggi layar, overflow-y-auto untuk jaga-jaga kalau layarnya super pendek
-    <div className="flex flex-col min-h-[100dvh] bg-[#FDFDFC] overflow-y-auto">
+    // h-[100dvh] dan overflow-hidden mengunci seluruh halaman tepat 1 layar penuh tanpa bisa di-scroll
+    <div className="flex flex-col items-center justify-between h-[100dvh] w-full py-4 sm:py-6 px-4 bg-[#FDFDFC] overflow-hidden">
       
-      {/* Spacer Atas: Mendorong semua konten ke tengah kalau layarnya tinggi (PC) */}
-      <div className="flex-grow"></div>
-      
-      {/* Kontainer Utama yang mengelompokkan Teks, Foto, dan Tombol dengan jarak tetap */}
-      <div className="flex flex-col items-center py-10 px-6 shrink-0 w-full">
-        
-        {/* BAGIAN ATAS: NAMA & JUDUL */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-center mb-8"
+      {/* BAGIAN ATAS: NAMA & JUDUL */}
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center shrink-0"
+      >
+        <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.2em] text-[#3B6E8C] mb-1 uppercase leading-snug">
+          Windy &<br/>Naufal
+        </h1>
+        <p className="font-script text-3xl sm:text-4xl text-[#3B6E8C]">
+          Wedding Day
+        </p>
+      </motion.div>
+
+      {/* BAGIAN TENGAH: FOTO (TINGGINYA MENYESUAIKAN LAYAR / VIEWPORT) */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        // Menggunakan h-[38vh] sampai h-[45vh] agar fotonya proporsional dan dijamin muat di satu layar
+        className="w-auto h-[38vh] sm:h-[42vh] lg:h-[45vh] aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl relative shrink-0 my-2"
+      >
+        <img 
+          src="/images/welcome.png" 
+          alt="Windy & Naufal Cover" 
+          className="w-full h-full object-cover object-center"
+        />
+      </motion.div>
+
+      {/* BAGIAN BAWAH: TANGGAL & TOMBOL */}
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="text-center flex flex-col items-center shrink-0"
+      >
+        <p className="font-serif tracking-[0.3em] text-xs sm:text-sm text-[#3B6E8C] mb-2 sm:mb-3">
+          27 / 09 / 2026
+        </p>
+        <button 
+          onClick={onOpen} 
+          className="bg-[#3B6E8C] text-white px-8 py-2.5 sm:py-3 rounded-full font-serif text-xs sm:text-sm tracking-wider hover:bg-[#2c536c] transition-all shadow-lg active:scale-95 cursor-pointer"
         >
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-4xl tracking-[0.2em] text-[#3B6E8C] mb-2 uppercase leading-snug">
-            Windy &<br/>Naufal
-          </h1>
-          <p className="font-script text-4xl sm:text-5xl lg:text-5xl text-[#3B6E8C] mt-1 lg:mt-2">
-            Wedding Day
-          </p>
-        </motion.div>
+          Buka Undangan
+        </button>
+      </motion.div>
 
-        {/* BAGIAN TENGAH: FOTO (BENTUK MUTLAK POTRAIT) */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          className="w-[250px] h-[350px] sm:w-[300px] sm:h-[400px] lg:w-[320px] lg:h-[440px] rounded-[2rem] overflow-hidden shadow-2xl relative shrink-0"
-        >
-          <img 
-            src="/images/welcome.png" 
-            alt="Windy & Naufal Cover" 
-            className="w-full h-full object-cover object-center"
-          />
-        </motion.div>
-
-        {/* BAGIAN BAWAH: TANGGAL & TOMBOL */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="text-center mt-8 flex flex-col items-center shrink-0"
-        >
-          <p className="font-serif tracking-[0.4em] text-xs sm:text-sm lg:text-base text-[#3B6E8C] mb-6 lg:mb-8">
-            27 / 09 / 2026
-          </p>
-          <button 
-            onClick={onOpen} 
-            className="bg-[#3B6E8C] text-white px-8 py-3 lg:px-10 lg:py-3.5 rounded-full font-serif text-xs lg:text-sm tracking-wider hover:bg-[#2c536c] transition-all shadow-lg active:scale-95"
-          >
-            Buka Undangan
-          </button>
-        </motion.div>
-
-      </div>
-
-      {/* Spacer Bawah: Menjaga keseimbangan dengan atas */}
-      <div className="flex-grow"></div>
-      
     </div>
   );
 }
