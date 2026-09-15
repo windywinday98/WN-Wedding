@@ -143,7 +143,7 @@ export default function RSVP({ onAddWish }) {
               </div>
               <h3 className="font-serif text-xl text-invitato font-bold mb-2">Terima Kasih!</h3>
               <p className="font-sans text-xs text-gray-500 leading-relaxed">
-                Terima kasih! RSVP & ucapan Anda berhasil dikirim.
+                RSVP & ucapan Anda berhasil dikirim.
               </p>
             </motion.div>
           </motion.div>

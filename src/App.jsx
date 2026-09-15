@@ -302,18 +302,14 @@ export default function App() {
                     Belum ada yang memberikan ucapan, jadilah yang pertama!
                   </p>
                 ) : (
-                  wishesList.map((wish, index) => (
-                    <div key={index} className="bg-[#F8FAFC] p-4 rounded-xl border border-gray-200/80 text-left shadow-xs">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-serif font-bold text-xs text-invitato">{wish.name}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-medium">
-                          {wish.attendance}
-                        </span>
-                      </div>
-                      <p className="font-sans text-[11px] text-gray-600 leading-relaxed italic">"{wish.message}"</p>
-                    </div>
-                  ))
-                )}
+                  {/* Gunakan uniqueWishes alih-alih wishes */}
+{uniqueWishes.map((wish, index) => (
+  <div key={wish.id || index} className="p-4 bg-white rounded-xl shadow-sm border border-gray-100">
+    <h4 className="font-bold text-sm text-gray-800">{wish.name}</h4>
+    <p className="text-xs text-emerald-600 mb-1">{wish.attendance}</p>
+    <p className="text-xs text-gray-600 italic">"{wish.message}"</p>
+  </div>
+))}
               </div>
             </motion.section>
 
