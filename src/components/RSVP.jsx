@@ -116,7 +116,7 @@ export default function RSVP({ onAddWish }) {
             disabled={isSubmitting}
             className="w-full bg-invitato text-white font-sans py-2.5 rounded-md hover:bg-invitato/90 transition-all font-medium text-xs tracking-wider shadow-sm cursor-pointer disabled:opacity-50"
           >
-            {isSubmitting ? 'Mengirim...' : 'Kirim RSVP'}
+            {isSubmitting ? 'Mengirim...' : 'Kirim'}
           </button>
         </form>
       </div>
