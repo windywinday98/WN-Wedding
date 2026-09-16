@@ -11,7 +11,6 @@ const images = [
   "/images/gal-6.png",
   "/images/gal-7.png",
   "/images/gal-8.png",
-  "/images/gal-9.png",
   "/images/gal-10.png",
   "/images/gal-11.png",
   "/images/gal-12.png",
